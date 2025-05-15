@@ -19,9 +19,32 @@ class AuthController extends Controller
         $token = Auth::login($user);
         
         return response()->json([
-            'status' => 'success',
+            'status' => true,
             'token' => $token,
             'user' => $user
-        ]);
+        ], 200);
+    }
+
+    public function login(Request $request) {
+        $token = Auth::attempt($request->only('email', 'password'));
+
+        if (!$token) {
+            return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        return response()->json([
+            'status' => true,
+            'token' => $token,
+            'user' => Auth::user()
+        ], 200);
+    }
+
+    public function me() {
+        return response()->json(['user' => Auth::user()], 200);
+    }
+
+    public function logout() {
+        Auth::logout();
+        return response()->json(['status' => true, 'message' => 'Logout successfully'], 200);
     }
 }
