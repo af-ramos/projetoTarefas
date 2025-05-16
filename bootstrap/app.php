@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -36,6 +37,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 if ($exception instanceof ValidationException) {
                     $message = $exception->getMessage();
                     $status = 422;
+                }
+
+                if ($exception instanceof AuthenticationException) {
+                    $message = $exception->getMessage();
+                    $status = 401;
                 }
 
                 return response()->json([
