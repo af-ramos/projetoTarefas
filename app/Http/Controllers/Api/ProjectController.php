@@ -31,4 +31,9 @@ class ProjectController extends Controller
         $project = $this->projectService->createProject($project);
         return response()->json($project['data'], $project['status']);
     }
+
+    public function list() {
+        $projects = $this->projectService->listProjects();
+        return response()->json($projects['data'], $projects['status']);
+    }
 }

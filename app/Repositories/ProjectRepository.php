@@ -19,4 +19,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function create(array $data) {
         return $this->project::create($data);
     }
+
+    public function list() {
+        return $this->project::with(['user:id,name', 'status:id,description'])->get();
+    }
 }

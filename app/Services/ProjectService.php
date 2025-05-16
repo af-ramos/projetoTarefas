@@ -31,4 +31,20 @@ class ProjectService
             ];
         }
     }
+
+    public function listProjects() {
+        try {
+            $projects = $this->projectRepository->list();
+
+            return [
+                'data' => ['projects' => $projects],
+                'status' => 200
+            ];
+        } catch (Exception $e) {
+            return [
+                'data' => ['message' => 'Error in listing projects'],
+                'status' => 500
+            ];
+        }
+    }
 }

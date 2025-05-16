@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->integer('status')->default(1);
+            $table->integer('status_id')->default(1);
             $table->integer('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('status')->references('id')->on('statuses');
+            $table->foreign('status_id')->references('id')->on('statuses');
         });
     }
 

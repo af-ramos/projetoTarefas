@@ -14,7 +14,15 @@ class Project extends Model
     protected $fillable = [
         'title',
         'description',
-        'status',
+        'status_id',
         'user_id',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function status() {
+        return $this->belongsTo(Status::class);
+    }
 }

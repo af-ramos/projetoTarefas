@@ -17,5 +17,6 @@ Route::middleware('auth:api')->group(function () {
 // PROJECT ROUTES
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('projects', [ProjectController::class, 'list']);
     Route::post('projects', [ProjectController::class, 'create']);
 });
