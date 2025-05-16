@@ -25,7 +25,10 @@ class AuthController extends Controller
         $user = $this->userService->createUser($request->validated());
         $token = $this->authService->register($user);
 
-        return $this->success(['token' => $token], 'User created successfully', 201);
+        return $this->success([
+            'token' => $token, 
+            'expires_in' => $this->authService->getTTL()
+        ], 'User created successfully', 201);
     }
 
     public function login(LoginRequest $request) {
@@ -35,7 +38,10 @@ class AuthController extends Controller
             return $this->error([], 'Invalid credentials', 401);
         }
 
-        return $this->success(['token' => $token], 'Login successfully', 200);
+        return $this->success([
+            'token' => $token, 
+            'expires_in' => $this->authService->getTTL()
+        ], 'Login successfully', 200);
     }
 
     public function me() {

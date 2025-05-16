@@ -27,4 +27,8 @@ class AuthService
     public function getId() {
         return Auth::id();
     }
+
+    public function getTTL() {
+        return Auth::factory()->getTTL() * 60;
+    }
 }
