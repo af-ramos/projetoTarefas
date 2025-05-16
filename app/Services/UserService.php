@@ -19,7 +19,7 @@ class UserService
     public function createUser(array $data) {
         try {
             $user = $this->userRepository->create([
-                'name' => $data['name'],
+                'name' => strtoupper($data['name']),
                 'email' => $data['email'],
                 'password' => bcrypt($data['password'])
             ]);
