@@ -16,19 +16,19 @@ class AuthService implements AuthInterface
 
             if (!$token) {
                 return [
-                    'data' => ['status' => false, 'message' => 'Unauthorized'],
-                    'statusCode' => 401
+                    'data' => ['message' => 'Unauthorized'],
+                    'status' => 401
                 ];
             }
 
             return [
-                'data' => ['status' => true, 'token' => $token, 'user' => $this->me()],
-                'statusCode' => 200
+                'data' => ['token' => $token, 'user' => Auth::user()],
+                'status' => 200
             ];
         } catch (Exception $e) {
             return [
-                'data' => ['status' => false, 'message' => 'Error in authentication'],
-                'statusCode' => 500
+                'data' => ['message' => 'Error in authentication'],
+                'status' => 500
             ];
         }
     }
@@ -38,13 +38,13 @@ class AuthService implements AuthInterface
             $token = Auth::login($user);
 
             return [
-                'data' => ['status' => true, 'token' => $token],
-                'statusCode' => 200
+                'data' => ['token' => $token],
+                'status' => 200
             ];
         } catch (Exception $e) {
             return [
-                'data' => ['status' => false, 'message' => 'Error in authentication'],
-                'statusCode' => 500
+                'data' => ['message' => 'Error in authentication'],
+                'status' => 500
             ];
         }
     }
@@ -54,13 +54,13 @@ class AuthService implements AuthInterface
             Auth::logout();
 
             return [
-                'data' => ['status' => true, 'message' => 'Logout successfully'],
-                'statusCode' => 200
+                'data' => ['message' => 'Logout successfully'],
+                'status' => 200
             ];
         } catch (Exception $e) {
             return [
-                'data' => ['status' => false, 'message' => 'Error in logout'],
-                'statusCode' => 500
+                'data' => ['message' => 'Error in logout'],
+                'status' => 500
             ];
         }
     }
@@ -70,13 +70,13 @@ class AuthService implements AuthInterface
             $user = Auth::user();
 
             return [
-                'data' => ['status' => true, 'user' => $user],
-                'statusCode' => 200
+                'data' => ['user' => $user],
+                'status' => 200
             ];
         } catch (Exception $e) {
             return [
-                'data' => ['status' => false, 'message' => 'Error in getting user'],
-                'statusCode' => 500
+                'data' => ['message' => 'Error in getting user'],
+                'status' => 500
             ];
         }
     }

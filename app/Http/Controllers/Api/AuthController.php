@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
@@ -20,32 +22,29 @@ class AuthController extends Controller
         $this->authService = new AuthService();
     }
 
-    public function register(Request $request) {
+    public function register(RegisterRequest $request) {
         $user = $this->userService->createUser($request->all());
 
-        if (!$user) {
-            return response()->json([
-                'data' => ['status' => false, 'message' => 'Error in registering'],
-                'statusCode' => 500
-            ]);
+        if ($user['status'] !== 200) {
+            return response()->json($user['data'], $user['status']);
         }
 
-        $token = $this->authService->register($user);
-        return response()->json($token['data'], $token['statusCode']);
+        $token = $this->authService->register($user['data']['user']);
+        return response()->json($token['data'], $token['status']);
     }
 
-    public function login(Request $request) {
+    public function login(LoginRequest $request) {
         $response = $this->authService->login($request->only('email', 'password'));
-        return response()->json($response['data'], $response['statusCode']);
+        return response()->json($response['data'], $response['status']);
     }
 
     public function me() {
         $user = $this->authService->me();
-        return response()->json($user['data'], $user['statusCode']);
+        return response()->json($user['data'], $user['status']);
     }
 
     public function logout() {
         $logout = $this->authService->logout();
-        return response()->json($logout['data'], $logout['statusCode']);
+        return response()->json($logout['data'], $logout['status']);
     }
 }

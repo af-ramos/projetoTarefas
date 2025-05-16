@@ -18,13 +18,21 @@ class UserService
 
     public function createUser(array $request) {
         try {
-            return $this->userRepository->create([
+            $user = $this->userRepository->create([
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => bcrypt($request['password'])
             ]);
+
+            return [
+                'data' => ['user' => $user],
+                'status' => 200
+            ];
         } catch (Exception $e) {
-            return null;
+            return [
+                'data' => ['message' => 'Error in creating user'],
+                'status' => 500
+            ];
         }
     }
 }
