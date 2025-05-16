@@ -80,4 +80,20 @@ class AuthService implements AuthInterface
             ];
         }
     }
+
+    public function getId() {
+        try {
+            $userId = Auth::id();
+
+            return [
+                'data' => ['id' => $userId],
+                'status' => 200
+            ];
+        } catch (Exception $e) {
+            return [
+                'data' => ['message' => 'Error in getting user id'],
+                'status' => 500
+            ];
+        }
+    }
 }
