@@ -5,43 +5,46 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use App\Services\UserService;
+use App\Traits\ApiResponderTrait;
 
 class AuthController extends Controller
 {
+    use ApiResponderTrait;
+
     protected $userService;
     protected $authService;
 
-    public function __construct() {
-        $this->userService = new UserService();
-        $this->authService = new AuthService();
+    public function __construct(UserService $userService, AuthService $authService) {
+        $this->userService = $userService;
+        $this->authService = $authService;
     }
 
     public function register(RegisterRequest $request) {
-        $user = $this->userService->createUser($request->all());
+        $user = $this->userService->createUser($request->validated());
+        $token = $this->authService->register($user);
 
-        if ($user['status'] !== 200) {
-            return response()->json($user['data'], $user['status']);
-        }
-
-        $token = $this->authService->register($user['data']['user']);
-        return response()->json($token['data'], $token['status']);
+        return $this->success(['token' => $token], 'User created successfully', 201);
     }
 
     public function login(LoginRequest $request) {
-        $response = $this->authService->login($request->all());
-        return response()->json($response['data'], $response['status']);
+        $token = $this->authService->login($request->validated());
+
+        if (!$token) {
+            return $this->error([], 'Invalid credentials', 401);
+        }
+
+        return $this->success(['token' => $token], 'Login successfully', 200);
     }
 
     public function me() {
         $user = $this->authService->me();
-        return response()->json($user['data'], $user['status']);
+        return $this->success(['user' => $user], 'User details', 200);
     }
 
     public function logout() {
         $logout = $this->authService->logout();
-        return response()->json($logout['data'], $logout['status']);
+        return $this->success([], 'Logout successfully', 200);
     }
 }

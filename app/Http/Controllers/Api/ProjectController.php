@@ -12,9 +12,9 @@ class ProjectController extends Controller
     protected $projectService;
     protected $authService;
 
-    public function __construct() {
-        $this->projectService = new ProjectService();
-        $this->authService = new AuthService();
+    public function __construct(ProjectService $projectService, AuthService $authService) {
+        $this->projectService = $projectService;
+        $this->authService = $authService;
     }
 
     public function create(CreateProjectRequest $request) {

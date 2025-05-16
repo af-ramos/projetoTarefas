@@ -12,8 +12,8 @@ class ProjectService
     /**
      * Create a new class instance.
      */
-    public function __construct() {
-        $this->projectRepository = new ProjectRepository();
+    public function __construct(ProjectRepository $projectRepository) {
+        $this->projectRepository = $projectRepository;
     }
 
     public function createProject(array $data) {

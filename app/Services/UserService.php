@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -12,27 +13,15 @@ class UserService
     /**
      * Create a new class instance.
      */
-    public function __construct() {
-        $this->userRepository = new UserRepository();
+    public function __construct(UserRepository $userRepository) {
+        $this->userRepository = $userRepository;
     }
 
     public function createUser(array $data) {
-        try {
-            $user = $this->userRepository->create([
-                'name' => strtoupper($data['name']),
-                'email' => $data['email'],
-                'password' => bcrypt($data['password'])
-            ]);
-
-            return [
-                'data' => ['user' => $user],
-                'status' => 200
-            ];
-        } catch (Exception $e) {
-            return [
-                'data' => ['message' => 'Error in creating user'],
-                'status' => 500
-            ];
-        }
+        return $this->userRepository->create([
+            'name' => strtoupper($data['name']),
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
+        ]);
     }
 }

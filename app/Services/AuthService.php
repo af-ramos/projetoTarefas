@@ -2,81 +2,26 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
     public function login(array $data) {
-        try {
-            $token = Auth::attempt($data);
-
-            if (!$token) {
-                return [
-                    'data' => ['message' => 'Unauthorized'],
-                    'status' => 401
-                ];
-            }
-
-            return [
-                'data' => ['token' => $token, 'user' => Auth::user()],
-                'status' => 200
-            ];
-        } catch (Exception $e) {
-            return [
-                'data' => ['message' => 'Error in authentication'],
-                'status' => 500
-            ];
-        }
+        return Auth::attempt($data);
     }
 
-    public function register(User $user) {
-        try {
-            $token = Auth::login($user);
-
-            return [
-                'data' => ['token' => $token],
-                'status' => 200
-            ];
-        } catch (Exception $e) {
-            return [
-                'data' => ['message' => 'Error in authentication'],
-                'status' => 500
-            ];
-        }
+    public function register(Authenticatable $user) {
+        return Auth::login($user);
     }
 
     public function logout() {
-        try {
-            Auth::logout();
-
-            return [
-                'data' => ['message' => 'Logout successfully'],
-                'status' => 200
-            ];
-        } catch (Exception $e) {
-            return [
-                'data' => ['message' => 'Error in logout'],
-                'status' => 500
-            ];
-        }
+        return Auth::logout();
     }
 
     public function me() {
-        try {
-            $user = Auth::user();
-
-            return [
-                'data' => ['user' => $user],
-                'status' => 200
-            ];
-        } catch (Exception $e) {
-            return [
-                'data' => ['message' => 'Error in getting user'],
-                'status' => 500
-            ];
-        }
+        return Auth::user();
     }
 
     public function getId() {
