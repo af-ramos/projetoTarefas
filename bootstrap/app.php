@@ -25,24 +25,13 @@ return Application::configure(basePath: dirname(__DIR__))
                 $message = 'Something went wrong';
                 $status = 500;
 
-                if ($exception instanceof QueryException) {
-                    $message = 'Database error';
-                }
-
-                if ($exception instanceof NotFoundHttpException) {
-                    $message = 'Route not found';
-                    $status = 404;
-                }
-
-                if ($exception instanceof ValidationException) {
-                    $message = $exception->getMessage();
-                    $status = 422;
-                }
-
-                if ($exception instanceof AuthenticationException) {
-                    $message = $exception->getMessage();
-                    $status = 401;
-                }
+                [$message, $status] = match (true) {
+                    $exception instanceof QueryException => ['Database error', 500],
+                    $exception instanceof NotFoundHttpException => ['Route not found', 404],
+                    $exception instanceof ValidationException => [$exception->getMessage(), 422],
+                    $exception instanceof AuthenticationException => [$exception->getMessage(), 401],
+                    default => [$message, $status]
+                };
 
                 return response()->json([
                     'message' => $message,
