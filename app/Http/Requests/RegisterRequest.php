@@ -14,6 +14,11 @@ class RegisterRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->replace($this->only(['name', 'email', 'password']));
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

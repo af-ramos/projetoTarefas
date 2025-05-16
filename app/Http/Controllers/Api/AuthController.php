@@ -34,7 +34,7 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request) {
-        $response = $this->authService->login($request->only('email', 'password'));
+        $response = $this->authService->login($request->all());
         return response()->json($response['data'], $response['status']);
     }
 

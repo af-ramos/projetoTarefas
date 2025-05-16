@@ -16,12 +16,12 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function createUser(array $request) {
+    public function createUser(array $data) {
         try {
             $user = $this->userRepository->create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'password' => bcrypt($request['password'])
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password'])
             ]);
 
             return [
