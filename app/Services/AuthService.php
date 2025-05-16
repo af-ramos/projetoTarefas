@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use App\Interfaces\AuthInterface;
 use App\Models\User;
 use Exception;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 
-class AuthService implements AuthInterface
+class AuthService
 {
     public function login(array $data) {
         try {
@@ -33,7 +31,7 @@ class AuthService implements AuthInterface
         }
     }
 
-    public function register(Authenticatable $user) {
+    public function register(User $user) {
         try {
             $token = Auth::login($user);
 

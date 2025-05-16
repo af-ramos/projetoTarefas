@@ -39,6 +39,10 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
     
+    public function projects() {
+        return $this->hasMany(Project::class);
+    }
+    
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -57,9 +61,5 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function projects() {
-        return $this->hasMany(Project::class);
     }
 }

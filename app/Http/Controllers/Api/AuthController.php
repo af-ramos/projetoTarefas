@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use App\Services\UserService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -18,7 +15,7 @@ class AuthController extends Controller
     protected $authService;
 
     public function __construct() {
-        $this->userService = new UserService(new UserRepository());
+        $this->userService = new UserService();
         $this->authService = new AuthService();
     }
 

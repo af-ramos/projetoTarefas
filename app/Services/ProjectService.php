@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\ProjectRepositoryInterface;
+use App\Repositories\ProjectRepository;
 use Exception;
 
 class ProjectService
@@ -12,8 +12,8 @@ class ProjectService
     /**
      * Create a new class instance.
      */
-    public function __construct(ProjectRepositoryInterface $projectRepository) {
-        $this->projectRepository = $projectRepository;
+    public function __construct() {
+        $this->projectRepository = new ProjectRepository();
     }
 
     public function createProject(array $data) {

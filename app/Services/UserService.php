@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 use Exception;
 
 class UserService
@@ -12,8 +12,8 @@ class UserService
     /**
      * Create a new class instance.
      */
-    public function __construct(UserRepositoryInterface $userRepository) {
-        $this->userRepository = $userRepository;
+    public function __construct() {
+        $this->userRepository = new UserRepository();
     }
 
     public function createUser(array $data) {

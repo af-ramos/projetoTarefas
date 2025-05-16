@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProjectRequest;
-use App\Repositories\ProjectRepository;
 use App\Services\AuthService;
 use App\Services\ProjectService;
 
@@ -14,7 +13,7 @@ class ProjectController extends Controller
     protected $authService;
 
     public function __construct() {
-        $this->projectService = new ProjectService(new ProjectRepository());
+        $this->projectService = new ProjectService();
         $this->authService = new AuthService();
     }
 
