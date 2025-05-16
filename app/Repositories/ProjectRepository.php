@@ -23,4 +23,8 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function list() {
         return $this->project::with(['user:id,name', 'status:id,description'])->get();
     }
+
+    public function show(int $id) {
+        return $this->project::with(['user:id,name', 'status:id,description'])->find($id);
+    }
 }

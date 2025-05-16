@@ -47,4 +47,27 @@ class ProjectService
             ];
         }
     }
+
+    public function showProject(int $id) {
+        try {
+            $project = $this->projectRepository->show($id);
+
+            if (!$project) {
+                return [
+                    'data' => ['message' => 'Project not found'],
+                    'status' => 404
+                ];
+            }
+
+            return [
+                'data' => ['project' => $project],
+                'status' => 200
+            ];
+        } catch (Exception $e) {
+            return [
+                'data' => ['message' => 'Error in showing project'],
+                'status' => 500
+            ];
+        }
+    }
 }
