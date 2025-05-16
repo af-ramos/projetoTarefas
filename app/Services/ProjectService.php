@@ -25,8 +25,6 @@ class ProjectService
                 'status' => 200
             ];
         } catch (Exception $e) {
-            dd($e->getMessage());
-
             return [
                 'data' => ['message' => 'Error in creating project'],
                 'status' => 500
