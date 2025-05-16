@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProjectRequest;
 use App\Services\AuthService;
 use App\Services\ProjectService;
+use App\Traits\ApiResponderTrait;
 
 class ProjectController extends Controller
 {
+    use ApiResponderTrait;
+
     protected $projectService;
     protected $authService;
 
@@ -18,26 +21,25 @@ class ProjectController extends Controller
     }
 
     public function create(CreateProjectRequest $request) {
-        $userId = $this->authService->getId();
-
-        if ($userId['status'] !== 200) {
-            return response()->json($userId['data'], $userId['status']);
-        }
-
-        $project = $request->all();
-        $project['user_id'] = $userId['data']['id'];
-
+        $project = $request->validated();
+        $project['user_id'] = $this->authService->getId();
         $project = $this->projectService->createProject($project);
-        return response()->json($project['data'], $project['status']);
+        
+        return $this->success(['project' => $project], 'Project created successfully', 201);
     }
 
     public function list() {
         $projects = $this->projectService->listProjects();
-        return response()->json($projects['data'], $projects['status']);
+        return $this->success(['projects' => $projects], 'Projects listed successfully', 200);
     }
 
     public function show($id) {
         $project = $this->projectService->showProject($id);
-        return response()->json($project['data'], $project['status']);
+
+        if (!$project) {
+            return $this->error([], 'Project not found', 404);
+        }
+
+        return $this->success(['project' => $project], 'Project listed successfully', 200);
     }
 }

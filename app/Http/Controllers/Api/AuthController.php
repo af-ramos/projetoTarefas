@@ -39,7 +39,7 @@ class AuthController extends Controller
     }
 
     public function me() {
-        $user = $this->authService->me();
+        $user = $this->authService->getUser();
         return $this->success(['user' => $user], 'User details', 200);
     }
 

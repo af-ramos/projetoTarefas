@@ -20,23 +20,11 @@ class AuthService
         return Auth::logout();
     }
 
-    public function me() {
+    public function getUser() {
         return Auth::user();
     }
 
     public function getId() {
-        try {
-            $userId = Auth::id();
-
-            return [
-                'data' => ['id' => $userId],
-                'status' => 200
-            ];
-        } catch (Exception $e) {
-            return [
-                'data' => ['message' => 'Error in getting user id'],
-                'status' => 500
-            ];
-        }
+        return Auth::id();
     }
 }
