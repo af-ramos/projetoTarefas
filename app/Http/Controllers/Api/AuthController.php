@@ -4,47 +4,48 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\UserRepository;
+use App\Services\AuthService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function register(Request $request) {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
+    protected $userService;
+    protected $authService;
 
-        $token = Auth::login($user);
-        
-        return response()->json([
-            'status' => true,
-            'token' => $token,
-            'user' => $user
-        ], 200);
+    public function __construct() {
+        $this->userService = new UserService(new UserRepository());
+        $this->authService = new AuthService();
+    }
+
+    public function register(Request $request) {
+        $user = $this->userService->createUser($request->all());
+
+        if (!$user) {
+            return response()->json([
+                'data' => ['status' => false, 'message' => 'Error in registering'],
+                'statusCode' => 500
+            ]);
+        }
+
+        $token = $this->authService->register($user);
+        return response()->json($token['data'], $token['statusCode']);
     }
 
     public function login(Request $request) {
-        $token = Auth::attempt($request->only('email', 'password'));
-
-        if (!$token) {
-            return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
-        }
-
-        return response()->json([
-            'status' => true,
-            'token' => $token,
-            'user' => Auth::user()
-        ], 200);
+        $response = $this->authService->login($request->only('email', 'password'));
+        return response()->json($response['data'], $response['statusCode']);
     }
 
     public function me() {
-        return response()->json(['user' => Auth::user()], 200);
+        $user = $this->authService->me();
+        return response()->json($user['data'], $user['statusCode']);
     }
 
     public function logout() {
-        Auth::logout();
-        return response()->json(['status' => true, 'message' => 'Logout successfully'], 200);
+        $logout = $this->authService->logout();
+        return response()->json($logout['data'], $logout['statusCode']);
     }
 }
