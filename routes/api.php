@@ -8,29 +8,35 @@ use Illuminate\Support\Facades\Route;
 // USER ROUTES
 
 Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [AuthController::class, 'login'])->middleware(['log.mongo']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('me', [AuthController::class, 'me']);
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware(['log.mongo']);
 });
 
 // PROJECT ROUTES
 
 Route::middleware('auth:api')->group(function () {
+    Route::middleware(['log.mongo'])->group(function () {
+        Route::post('projects', [ProjectController::class, 'create']);
+        Route::put('projects/{id}', [ProjectController::class, 'update']);
+    });
+
     Route::get('projects', [ProjectController::class, 'list']);
-    Route::post('projects', [ProjectController::class, 'create']);
     Route::get('projects/{id}', [ProjectController::class, 'show']);
-    Route::put('projects/{id}', [ProjectController::class, 'update']);
     Route::delete('projects/{id}', [ProjectController::class, 'delete']);
 });
 
 // TASKS ROUTES
 
 Route::middleware('auth:api')->group(function () {
+    Route::middleware(['log.mongo'])->group(function () {
+        Route::post('projects/{id}/tasks', [TaskController::class, 'create']);
+        Route::put('tasks/{id}', [TaskController::class, 'update']);
+    });
+
     Route::get('projects/{id}/tasks', [TaskController::class, 'list']);
-    Route::post('projects/{id}/tasks', [TaskController::class, 'create']);
     Route::get('tasks/{id}', [TaskController::class, 'show']);
-    Route::put('tasks/{id}', [TaskController::class, 'update']);
     Route::delete('tasks/{id}', [TaskController::class, 'delete']);
 });

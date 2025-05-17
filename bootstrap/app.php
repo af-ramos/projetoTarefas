@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\LogMiddleware;
+use App\Services\AuthService;
+use App\Services\MongoService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
@@ -18,7 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'log.mongo' => LogMiddleware::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Throwable $exception, Request $request) {
@@ -34,6 +39,15 @@ return Application::configure(basePath: dirname(__DIR__))
                     $exception instanceof AccessDeniedHttpException => [$exception->getMessage(), 403],
                     default => [$message, $status]
                 };
+
+                [$controller, $action] = explode('@', $request->route()?->getActionName());
+                $userId = app(AuthService::class)->getId();
+
+                app(MongoService::class)->error(
+                    $request->path(), $action, $request->ip(), 
+                    $request->all(), $userId, 
+                    [$exception->getMessage(), $exception->getTraceAsString()]
+                );
 
                 return response()->json([
                     'message' => $message,
