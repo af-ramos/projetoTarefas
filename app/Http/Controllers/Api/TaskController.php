@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\EditTaskRequest;
 use App\Services\AuthService;
 use App\Services\ProjectService;
 use App\Services\TaskService;
+use App\Services\UserService;
 use App\Traits\ApiResponderTrait;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -17,10 +18,12 @@ class TaskController extends Controller
     protected $authService;
     protected $taskService;
     protected $projectService;
+    protected $userService;
 
-    public function __construct(AuthService $authService, ProjectService $projectService, TaskService $taskService) {
+    public function __construct(AuthService $authService, ProjectService $projectService, TaskService $taskService, UserService $userService) {
         $this->authService = $authService;
         $this->projectService = $projectService;
+        $this->userService = $userService;
         $this->taskService = $taskService;
     }
 
@@ -58,5 +61,19 @@ class TaskController extends Controller
         }
 
         return $this->success(['task' => $task], 'Task listed successfully', 200);
+    }
+
+    public function update(EditTaskRequest $request, int $taskId) {
+        $taskRequest = $request->validated();
+
+        $taskModel = $this->taskService->showTask($taskId);
+        if (!$taskModel) {
+            return $this->error([], 'Task not found', 404);
+        }
+
+        $this->authorize('update', $taskModel);
+
+        $task = $this->taskService->updateTask($taskId, $taskRequest);
+        return $this->success(['task' => $task], 'Task updated successfully', 200);
     }
 }

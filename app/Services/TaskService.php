@@ -28,4 +28,8 @@ class TaskService
     public function showTask(int $taskId) {
         return $this->taskRepository->show($taskId);
     }
+
+    public function updateTask(int $taskId, array $data) {
+        return $this->taskRepository->update($taskId, $data);
+    }
 }

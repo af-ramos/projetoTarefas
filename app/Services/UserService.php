@@ -24,4 +24,8 @@ class UserService
             'password' => Hash::make($data['password'])
         ]);
     }
+
+    public function showUser(int $userId) {
+        return $this->userRepository->show($userId);
+    }
 }

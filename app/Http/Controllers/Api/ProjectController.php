@@ -24,8 +24,8 @@ class ProjectController extends Controller
     public function create(CreateProjectRequest $request) {
         $project = $request->validated();
         $project['user_id'] = $this->authService->getId();
+
         $project = $this->projectService->createProject($project);
-        
         return $this->success(['project' => $project], 'Project created successfully', 201);
     }
 

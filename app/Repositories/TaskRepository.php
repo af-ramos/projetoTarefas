@@ -18,6 +18,6 @@ class TaskRepository extends BaseRepository
     }
 
     public function show(int $id) {
-        return $this->model->with(['user:id,name', 'status:id,description', 'project:id,title'])->find($id);
+        return $this->model->with(['user:id,name', 'status:id,description', 'project:id,title,user_id'])->find($id);
     }
 }
