@@ -7,6 +7,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -30,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     $exception instanceof NotFoundHttpException => ['Route not found', 404],
                     $exception instanceof ValidationException => [$exception->getMessage(), 422],
                     $exception instanceof AuthenticationException => [$exception->getMessage(), 401],
+                    $exception instanceof AccessDeniedHttpException => [$exception->getMessage(), 403],
                     default => [$message, $status]
                 };
 
