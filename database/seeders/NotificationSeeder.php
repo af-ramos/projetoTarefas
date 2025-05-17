@@ -13,7 +13,7 @@ class NotificationSeeder extends Seeder
      */
     public function run(): void
     {
-        $statuses = ['POP-UP', 'E-MAIL'];	
+        $statuses = ['POPUP', 'E-MAIL'];	
 
         foreach ($statuses as $status) {
             Notification::firstOrCreate(['description' => $status]);
