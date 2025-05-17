@@ -182,7 +182,7 @@ return [
     'defaults' => [
         'supervisor-senior' => [
             'connection' => env('QUEUE_CONNECTION'),
-            'queue' => ['default'],
+            'queue' => ['notifications'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
@@ -191,7 +191,7 @@ return [
             'memory' => 128,
             'tries' => 1,
             'timeout' => 60,
-            'nice' => 0,
+            'nice' => 0
         ]
     ],
 
