@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Statuses;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Status extends Model
+class ProjectStatus extends Model
 {
     use HasFactory;
 
@@ -19,12 +19,4 @@ class Status extends Model
     protected $fillable = [
         'description'
     ];
-
-    public function projects() {
-        return $this->hasMany(Project::class);
-    }
-
-    public function tasks() {
-        return $this->hasMany(Task::class);
-    }
 }

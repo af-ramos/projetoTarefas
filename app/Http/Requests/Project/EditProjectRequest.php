@@ -29,7 +29,7 @@ class EditProjectRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'status_id' => 'required|integer|between:1,5'
+            'status_id' => 'required|integer|exists:project_statuses,id'
         ];
     }
 
@@ -39,7 +39,7 @@ class EditProjectRequest extends FormRequest
             'title.required' => 'Title is mandatory',
             'description.required' => 'Description is mandatory',
             'status.required' => 'Status is mandatory',
-            'status.between' => 'Status is unavailable'
+            'status.exists' => 'Status is unavailable'
         ];
     }
 }

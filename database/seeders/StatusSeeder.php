@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Status;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Statuses\ProjectStatus;
+use App\Models\Statuses\TaskStatus;
 use Illuminate\Database\Seeder;
 
 class StatusSeeder extends Seeder
@@ -13,10 +13,15 @@ class StatusSeeder extends Seeder
      */
     public function run(): void
     {
-        $statuses = ['BACKLOG', 'DEVELOPMENT', 'CODE REVIEW', 'TEST', 'PRE-RELEASE', 'TO DO', 'IN PROGRESS', 'DONE'];	
+        $projectStatuses = ['BACKLOG', 'DEVELOPMENT', 'CODE REVIEW', 'TEST', 'PRE-RELEASE'];
+        $taskStatuses = ['TO DO', 'IN PROGRESS', 'DONE'];
 
-        foreach ($statuses as $status) {
-            Status::firstOrCreate(['description' => $status]);
+        foreach ($projectStatuses as $status) {
+            ProjectStatus::firstOrCreate(['description' => $status]);
+        }
+
+        foreach ($taskStatuses as $status) {
+            TaskStatus::firstOrCreate(['description' => $status]);
         }
     }
 }
