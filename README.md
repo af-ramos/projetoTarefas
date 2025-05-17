@@ -102,6 +102,19 @@ Em relação às regras de negócio, foram tomadas algumas decisões de forma a 
 
 ## TESTES
 
+Devido ao tempo e a falta de prática com o desenvolvimento de testes, foram criados cinco testes abrangendo algumas seções do sistema e diferentes padrões de arquivos:
+- Feature/ServiceConnectionTest: testa as conexões reais com os serviços externos MongoDB e RabbitMQ, garantindo que a aplicação está devidamente conectada e configurada.
+- Unit/AuthServiceTest: testa as funcionalidades do serviço de autenticação, incluindo login, registro, entre outros, utilizando mocks para simular a camada de autenticação.  
+- Unit/CreateProjectRequestTest: valida a request de criação de projeto, verificando se as regras de validação e o pré-processamento dos dados.
+- Unit/LogMiddlewareTest: testa o middleware responsável pelo registro de logs de requisições.
+- Unit/UserServiceTest: testa os métodos do serviço de usuário, como criação e consulta.
+
+Os testes de conexão no RabbitMQ e MongoDB foram separados para a pasta de Feature por se tratar de testes que abrangem funcionalidades e conexões reais com o ambiente externo, sem uso de dados mockados.
+
+Para executar os testes, é possível rodar os comandos:
+- docker exec -it senior-hcosta php artisan test (onde será possível ver os resultados de todos os testes)
+- docker exec -it senior-hcosta php artisan test --filter=CreateProjectRequestTest (onde é possível definir o teste que será executado e analisar seus resultados individualmente)
+
 ## MELHORIAS FUTURAS
 
 Durante o desenvolvimento e por questões de prazo, foram identificadas algumas melhorias e oportunidades de estudo para aprimoramento do projeto, conforme segue abaixo alguns pontos:
@@ -109,3 +122,4 @@ Durante o desenvolvimento e por questões de prazo, foram identificadas algumas 
 - Uma forma mais eficiente, limpa e que gire em torno das boas práticas para envio de notificações. Foi verificado que mesmo com erros, as notificações ainda são enviadas, além de que é inviável realizar as mesmas tratativas de erros que os controladores e serviços realizam, pois como as middlewares são realizadas no início da requisição, a informação utilizada é bruta e não passível de validação de uma forma prática.
 - Formas mais eficientes e menos custosas de criar os containerês, principalmente em questão de velocidade e espaço em disco, pois foi verificado que além do processo de build demorar um tempo considerável, o total de espaço ocupado pelas imagens, desconsiderando os volumes gerados para persistência, gira em torno de 3.351 GB.
 - Estudo de outras arquiteturas ou padrões para validar se o MVC foi o modelo ideal para o propósito do projeto.
+- Estudo no desenvolvimento de testes unitários e outros tipos de testes para facilitar o desenvolvimento e criar os testes à medida que o desenvolvimento é feito, para manter a consistência e integridade do sistema.
