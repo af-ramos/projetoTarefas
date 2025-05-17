@@ -14,11 +14,6 @@ class LoginRequest extends FormRequest
         return true;
     }
 
-    protected function prepareForValidation()
-    {
-        $this->replace($this->only(['email', 'password']));
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

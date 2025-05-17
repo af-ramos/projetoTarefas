@@ -16,7 +16,6 @@ class EditProjectRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->replace($this->only(['title', 'description', 'status_id']));
         $this->merge(array_map(fn($value) => mb_strtoupper($value), $this->all()));
     }
 
