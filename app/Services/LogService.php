@@ -28,11 +28,4 @@ class LogService
             'error' => $error
         ]);
     }
-
-    public function notification(int $user, string $type, array $body) {
-        return $this->mongoRepository->notification([
-            'user' => $user, 'type' => $type, 'body' => $body,
-            'date' => now()->format('Y-m-d'), 'time' => now()->format('H:i:s')
-        ]);
-    }
 }
