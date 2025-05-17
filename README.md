@@ -25,7 +25,7 @@ Recomenda-se também o uso do Docker Engine, ao invés do convencional Docker De
     - docker exec -it senior-hcosta php artisan jwt:secret
 8) Rodar o comando docker exec -it senior-hcosta php artisan migrate:fresh --seed para inicialização da base de dados e criação dos dados padrões usados nas tabelas statuses e notifications.
 8) Se necessário, solicitar a documentação das rotas e realizar os testes necessários para validação e uso da API.
-9) A URL padrão para acessar as rotas é localhost:8100/api e destaca-se a necessidade de para todas as rotas, exceto /register e /login adicionar o Bearer Token gerado na aba de Authorization.
+9) A URL padrão para acessar as rotas é localhost:8000/api e destaca-se a necessidade de para todas as rotas, exceto /register e /login adicionar o Bearer Token gerado na aba de Authorization.
 
 ## TECNOLOGIAS USADAS
 
