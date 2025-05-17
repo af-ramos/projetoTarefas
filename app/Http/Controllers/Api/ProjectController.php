@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateProjectRequest;
-use App\Http\Requests\EditProjectRequest;
+use App\Http\Requests\Project\CreateProjectRequest;
+use App\Http\Requests\Project\EditProjectRequest;
 use App\Services\AuthService;
 use App\Services\ProjectService;
 use App\Traits\ApiResponderTrait;

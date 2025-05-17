@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Task;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditProjectRequest extends FormRequest
+class EditTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,19 +27,21 @@ class EditProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'status_id' => 'required|integer|between:1,5'
+            'status_id' => 'required|integer|between:6,8',
+            'user_id' => 'nullable|integer|exists:users,id'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'Title is mandatory',
+            'name.required' => 'Name is mandatory',
             'description.required' => 'Description is mandatory',
-            'status.required' => 'Status is mandatory',
-            'status.between' => 'Status is unavailable'
+            'status_id.required' => 'Status is mandatory',
+            'status_id.between' => 'Status is unavailable',
+            'user_id.exists' => 'User is unavailable'
         ];
     }
 }

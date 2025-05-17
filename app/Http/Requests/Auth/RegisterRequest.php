@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTaskRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,11 +12,6 @@ class CreateTaskRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge(array_map(fn($value) => mb_strtoupper($value), $this->all()));
     }
 
     /**
@@ -28,7 +23,8 @@ class CreateTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6'
         ];
     }
 
@@ -36,7 +32,11 @@ class CreateTaskRequest extends FormRequest
     {
         return [
             'name.required' => 'Name is mandatory',
-            'description.required' => 'Description is mandatory'
+            'email.required' => 'Email is mandatory',
+            'email.email' => 'Email must be valid',
+            'email.unique' => 'This email is already in use',
+            'password.required' => 'Password is mandatory',
+            'password.min' => 'Password must be at least 6 characters long',
         ];
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateTaskRequest;
-use App\Http\Requests\EditTaskRequest;
+use App\Http\Requests\Task\CreateTaskRequest;
+use App\Http\Requests\Task\EditTaskRequest;
 use App\Services\AuthService;
 use App\Services\ProjectService;
 use App\Services\TaskService;

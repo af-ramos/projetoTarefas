@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Project;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateProjectRequest extends FormRequest
+class EditProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,6 +29,7 @@ class CreateProjectRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
+            'status_id' => 'required|integer|between:1,5'
         ];
     }
 
@@ -36,7 +37,9 @@ class CreateProjectRequest extends FormRequest
     {
         return [
             'title.required' => 'Title is mandatory',
-            'description.required' => 'Description is mandatory'
+            'description.required' => 'Description is mandatory',
+            'status.required' => 'Status is mandatory',
+            'status.between' => 'Status is unavailable'
         ];
     }
 }
