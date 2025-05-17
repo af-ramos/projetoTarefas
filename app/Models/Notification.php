@@ -14,12 +14,4 @@ class Notification extends Model
     protected $fillable = [
         'description'
     ];
-
-    protected $hidden = [
-        'pivot'
-    ];
-
-    public function users() {
-        return $this->belongsToMany(User::class);
-    }
 }

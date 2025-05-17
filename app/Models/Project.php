@@ -18,14 +18,6 @@ class Project extends Model
         'title',
         'description',
         'status_id',
-        'user_id',
+        'owner_id'
     ];
-
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
-
-    public function tasks() {
-        return $this->hasMany(Task::class);
-    }
 }

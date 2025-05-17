@@ -13,7 +13,7 @@ class ProjectFactory extends Factory
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph,
             'status_id' => $this->faker->numberBetween(1, 5),
-            'user_id' => User::factory(),
+            'owner_id' => User::factory(),
         ];
     }
 }

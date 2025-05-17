@@ -14,7 +14,7 @@ class UserRepository extends BaseRepository
     }
 
     public function create(array $data) {
-        $user = $this->model->create($data);
+        $user = parent::create($data);
         $user->notifications()->attach($data['notifications']);
 
         return $user;

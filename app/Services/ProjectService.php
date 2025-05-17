@@ -21,11 +21,11 @@ class ProjectService
     }
 
     public function listProjects() {
-        return $this->projectRepository->list(['user:id,name']);
+        return $this->projectRepository->list();
     }
 
     public function showProject(int $id) {
-        return $this->projectRepository->show($id, ['user:id,name', 'tasks.user:id,name', 'tasks.status:id,description']);
+        return $this->projectRepository->show($id);
     }
 
     public function updateProject(int $id, array $data) {

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->integer('status_id')->default(1);
-            $table->integer('user_id');
+            $table->integer('owner_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('owner_id')->references('id')->on('users');
             $table->foreign('status_id')->references('id')->on('project_statuses');
         });
     }

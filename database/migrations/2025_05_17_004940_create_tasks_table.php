@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->integer('status_id')->default(6);
-            $table->integer('user_id')->nullable();
+            $table->integer('owner_id');
+            $table->integer('assigned_id')->nullable();
             $table->integer('project_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('owner_id')->references('id')->on('users');
+            $table->foreign('assigned_id')->references('id')->on('users');
             $table->foreign('status_id')->references('id')->on('task_statuses');
             $table->foreign('project_id')->references('id')->on('projects');
         });

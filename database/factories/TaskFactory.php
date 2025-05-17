@@ -14,7 +14,8 @@ class TaskFactory extends Factory
             'name' => $this->faker->sentence(2),
             'description' => $this->faker->paragraph,
             'status_id' => $this->faker->numberBetween(1, 3),
-            'user_id' => User::factory(),
+            'owner_id' => User::factory(),
+            'assigned_id' => User::factory(),
             'project_id' => Project::factory(),
         ];
     }
