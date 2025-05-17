@@ -17,4 +17,15 @@ abstract class BaseRepository
     public function show(int $id) {
         return $this->model->find($id);
     }
+
+    public function update(int $id, array $data) {
+        $this->model = $this->model->find($id)->fill($data);
+        $this->model->save();
+
+        return $this->model;
+    }
+
+    public function delete(int $id) {
+        return $this->model->find($id)->delete();
+    }
 }

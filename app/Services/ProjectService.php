@@ -27,4 +27,12 @@ class ProjectService
     public function showProject(int $id) {
         return $this->projectRepository->show($id);
     }
+
+    public function updateProject(int $id, array $data) {
+        return $this->projectRepository->update($id, $data);
+    }
+
+    public function deleteProject(int $id) {
+        return $this->projectRepository->delete($id);
+    }
 }
