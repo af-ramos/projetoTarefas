@@ -76,4 +76,16 @@ class TaskController extends Controller
         $task = $this->taskService->updateTask($taskId, $taskRequest);
         return $this->success(['task' => $task], 'Task updated successfully', 200);
     }
+
+    public function delete(int $taskId) {
+        $taskModel = $this->taskService->showTask($taskId);
+        if (!$taskModel) {
+            return $this->error([], 'Task not found', 404);
+        }
+
+        $this->authorize('delete', $taskModel);
+
+        $this->taskService->deleteTask($taskId);
+        return $this->success([], 'Task deleted successfully', 200);
+    }
 }

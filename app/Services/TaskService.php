@@ -32,4 +32,8 @@ class TaskService
     public function updateTask(int $taskId, array $data) {
         return $this->taskRepository->update($taskId, $data);
     }
+
+    public function deleteTask(int $taskId) {
+        return $this->taskRepository->delete($taskId);
+    }
 }
