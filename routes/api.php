@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // USER ROUTES
 
-Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'register'])->middleware(['register.log']);
 Route::post('login', [AuthController::class, 'login'])->middleware(['register.log']);
 
 Route::middleware('auth:api')->group(function () {

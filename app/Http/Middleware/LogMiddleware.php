@@ -33,7 +33,7 @@ class LogMiddleware
 
         $this->logService->log(
             $request->path(), $action,
-            $request->ip(), $request->all(), $user
+            $request->ip(), $request->except(['password', 'token']), $user
         );
 
         return $response;

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Error;
-use App\Models\Log;
+use App\Models\Logs\Error;
+use App\Models\Logs\Log;
 
 class LogRepository
 {
