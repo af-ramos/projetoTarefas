@@ -15,14 +15,12 @@ abstract class NotificationService implements NotificationInterface {
     public function formatMessage(array $data) {
         if ($data['action'] === 'create') {
             return [
-                'message' => 'The user ' . $data['user']['name'] . ' created a new task',
-                'project' => $data['project']
+                'message' => 'The user ' . $data['user']['name'] . ' created a new task'
             ];
         }
 
         return [
-            'message' => 'The user ' . $data['user']['name'] . ' assigned a task to ' . $data['assignee']['name'],
-            'project' => $data['project']
+            'message' => 'The user ' . $data['user']['name'] . ' assigned a task to ' . $data['assignee']['name']
         ];
     }
 

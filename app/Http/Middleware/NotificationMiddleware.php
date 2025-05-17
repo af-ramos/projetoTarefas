@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Services\AuthService;
 use App\Services\ProjectService;
 use App\Services\QueueService;
+use App\Services\TaskService;
 use App\Services\UserService;
 use Closure;
 use Illuminate\Http\Request;
@@ -15,13 +16,11 @@ class NotificationMiddleware
     protected $queueService;
     protected $authService;
     protected $userService;
-    protected $projectService;
 
-    public function __construct(QueueService $queueService, AuthService $authService, UserService $userService, ProjectService $projectService) {
+    public function __construct(QueueService $queueService, AuthService $authService, UserService $userService) {
         $this->queueService = $queueService;
         $this->authService = $authService;
         $this->userService = $userService;
-        $this->projectService = $projectService;
     }
 
     /**
@@ -36,14 +35,12 @@ class NotificationMiddleware
 
         $user = $this->authService->getUser();
         $user = $this->userService->showUser($user->id);
-        $project = $this->projectService->showProject($request->route('id'));
         
         $targetUsers = [];
 
         if ($action === 'create') {
             $data = [
                 'user' => $user->toArray(),
-                'project' => $project->toArray(),
                 'action' => $action
             ];
 
@@ -56,7 +53,6 @@ class NotificationMiddleware
             $data = [
                 'user' => $user->toArray(),
                 'assignee' => $assignee->toArray(),
-                'project' => $project->toArray(),
                 'action' => $action
             ];
 
