@@ -35,10 +35,9 @@ class TaskController extends Controller
             return $this->error([], 'Project not found', 404);
         }
         
-        $this->authorize('create', $project);
         $task['project_id'] = $project->id;
-
         $task = $this->taskService->createTask($task);
+        
         return $this->success(['task' => $task], 'Task created successfully', 201);
     }
 
