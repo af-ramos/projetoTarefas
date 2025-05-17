@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Middleware\LogMiddleware;
+use App\Http\Middleware\NotificationMiddleware;
 use App\Services\AuthService;
-use App\Services\MongoService;
+use App\Services\LogService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
@@ -22,7 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'log.mongo' => LogMiddleware::class
+            'register.log' => LogMiddleware::class,
+            'send.notification' => NotificationMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -43,7 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 [$controller, $action] = explode('@', $request->route()?->getActionName());
                 $userId = app(AuthService::class)->getId();
 
-                app(MongoService::class)->error(
+                app(LogService::class)->error(
                     $request->path(), $action, $request->ip(), 
                     $request->all(), $userId, 
                     [$exception->getMessage(), $exception->getTraceAsString()]

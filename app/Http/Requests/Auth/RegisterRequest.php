@@ -24,7 +24,8 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'notifications' => 'nullable|array|exists:notifications,id'
         ];
     }
 
@@ -37,6 +38,7 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'This email is already in use',
             'password.required' => 'Password is mandatory',
             'password.min' => 'Password must be at least 6 characters long',
+            'notifications.exists' => 'Notification does not exist'
         ];
     }
 }

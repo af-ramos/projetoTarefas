@@ -21,7 +21,8 @@ class UserService
         return $this->userRepository->create([
             'name' => strtoupper($data['name']),
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => Hash::make($data['password']),
+            'notifications' => $data['notifications'] ?? []
         ]);
     }
 

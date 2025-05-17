@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Repositories\MongoRepository;
+use App\Repositories\LogRepository;
 
-class MongoService
+class LogService
 {
     protected $mongoRepository;
 
-    public function __construct(MongoRepository $mongoRepository) {
+    public function __construct(LogRepository $mongoRepository) {
         $this->mongoRepository = $mongoRepository;
     }
 

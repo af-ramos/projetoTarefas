@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Error;
 use App\Models\Log;
 
-class MongoRepository
+class LogRepository
 {
     protected $log;
     protected $error;
