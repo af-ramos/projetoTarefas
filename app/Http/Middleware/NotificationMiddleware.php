@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Services\AuthService;
+use App\Services\ProjectService;
 use App\Services\QueueService;
 use App\Services\UserService;
 use Closure;
@@ -14,11 +15,13 @@ class NotificationMiddleware
     protected $queueService;
     protected $authService;
     protected $userService;
+    protected $projectService;
 
-    public function __construct(QueueService $queueService, AuthService $authService, UserService $userService) {
+    public function __construct(QueueService $queueService, AuthService $authService, UserService $userService, ProjectService $projectService) {
         $this->queueService = $queueService;
         $this->authService = $authService;
         $this->userService = $userService;
+        $this->projectService = $projectService;
     }
 
     /**
@@ -29,12 +32,41 @@ class NotificationMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
+        [$controller, $action] = explode('@', $request->route()?->getActionName());
 
         $user = $this->authService->getUser();
         $user = $this->userService->showUser($user->id);
+        $project = $this->projectService->showProject($request->route('id'));
+        
+        $targetUsers = [];
 
-        foreach ($user->notifications as $notification) {
-            $this->queueService->pushNotification($notification->description, $request->all());
+        if ($action === 'create') {
+            $data = [
+                'user' => $user->toArray(),
+                'project' => $project->toArray(),
+                'action' => $action
+            ];
+
+            array_push($targetUsers, $user);
+        }
+
+        if ($action === 'update' && isset($request->user_id)) {
+            $assignee = $this->userService->showUser($request->user_id);
+
+            $data = [
+                'user' => $user->toArray(),
+                'assignee' => $assignee->toArray(),
+                'project' => $project->toArray(),
+                'action' => $action
+            ];
+
+            array_push($targetUsers, $user, $assignee);
+        }
+        
+        foreach (array_unique($targetUsers) as $target) {
+            foreach ($target->notifications as $notification) {
+                $this->queueService->pushNotification($notification->description, $data, $target->id);
+            }   
         }
 
         return $response;

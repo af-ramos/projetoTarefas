@@ -4,7 +4,7 @@ namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
 
-class Log extends Model
+class NotificationLog extends Model
 {
     protected $connection = 'mongodb';
     public $timestamps = false;
@@ -12,10 +12,8 @@ class Log extends Model
     protected $fillable = [
         'date',
         'time',
-        'payload',
-        'route',
         'user',
-        'ip',
-        'method'
+        'type',
+        'body'
     ];
 }
