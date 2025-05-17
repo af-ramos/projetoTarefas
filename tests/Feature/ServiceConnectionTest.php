@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ServiceConnectionTest extends TestCase
 {
-    public function testMongoConnection(): void {
+    public function test_mongo_connection(): void {
         try {
             DB::connection('mongodb')->getMongoClient()->listDatabases();
             $this->assertTrue(true);
@@ -18,7 +18,7 @@ class ServiceConnectionTest extends TestCase
         }
     }
 
-    public function testRabbitmqConnection(): void {
+    public function test_rabbitmq_connection(): void {
         try {
             Queue::connection('rabbitmq')->size(env('RABBITMQ_QUEUE'));
             $this->assertTrue(true);
