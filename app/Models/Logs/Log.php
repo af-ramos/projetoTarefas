@@ -7,8 +7,6 @@ use MongoDB\Laravel\Eloquent\Model;
 class Log extends Model
 {
     protected $connection = 'mongodb';
-    protected $table = 'logs';
-
     public $timestamps = false;
 
     protected $fillable = [
