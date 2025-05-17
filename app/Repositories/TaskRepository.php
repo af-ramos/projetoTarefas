@@ -2,15 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\Project;
+use App\Models\Task;
 
-class ProjectRepository extends BaseRepository
+class TaskRepository extends BaseRepository
 {
     /**
      * Create a new class instance.
      */
     public function __construct() {
-        $this->model = new Project();
+        $this->model = new Task();
     }
 
     public function list() {
@@ -18,6 +18,6 @@ class ProjectRepository extends BaseRepository
     }
 
     public function show(int $id) {
-        return $this->model->with(['user:id,name', 'status:id,description', 'tasks.user:id,name', 'tasks.status:id,description'])->find($id);
+        return $this->model->with(['user:id,name', 'status:id,description', 'project:id,title'])->find($id);
     }
 }

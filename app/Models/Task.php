@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Task extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,10 +12,11 @@ class Project extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'title',
+        'name',
         'description',
         'status_id',
         'user_id',
+        'project_id'
     ];
 
     public function user() {
@@ -26,7 +27,7 @@ class Project extends Model
         return $this->belongsTo(Status::class);
     }
 
-    public function tasks() {
-        return $this->hasMany(Task::class);
+    public function project() {
+        return $this->belongsTo(Project::class);
     }
 }

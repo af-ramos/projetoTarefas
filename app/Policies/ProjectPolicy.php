@@ -8,6 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
 {
+    public function create(User $user, Project $project): bool {
+        return $user->id === $project->user_id;
+    }
+
     /**
      * Determine whether the user can update the model.
      */
