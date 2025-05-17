@@ -19,8 +19,4 @@ class UserRepository extends BaseRepository
 
         return $user;
     }
-
-    public function show(int $id) {
-        return $this->model->with('notifications:id,description')->find($id);
-    }
 }

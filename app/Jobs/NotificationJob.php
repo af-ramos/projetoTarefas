@@ -15,6 +15,7 @@ class NotificationJob implements ShouldQueue
 
     protected array $data;
     protected int $targetId;
+    
     protected NotificationService $service;
 
     public function __construct(string $serviceClass, array $data, int $targetId) {
@@ -22,6 +23,7 @@ class NotificationJob implements ShouldQueue
 
         $this->data = $data;
         $this->targetId = $targetId;
+
         $this->service = app($serviceClass);
     }
 

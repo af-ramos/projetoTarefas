@@ -12,12 +12,4 @@ class ProjectRepository extends BaseRepository
     public function __construct() {
         $this->model = new Project();
     }
-
-    public function list() {
-        return $this->model->with(['user:id,name', 'status:id,description'])->get();
-    }
-
-    public function show(int $id) {
-        return $this->model->with(['user:id,name', 'status:id,description', 'tasks.user:id,name', 'tasks.status:id,description'])->find($id);
-    }
 }

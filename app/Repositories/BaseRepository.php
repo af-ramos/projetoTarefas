@@ -10,12 +10,12 @@ abstract class BaseRepository
         return $this->model->create($data);
     }
 
-    public function list() {
-        return $this->model->get();
+    public function list(array $with = []) {
+        return $this->model->with($with)->get();
     }
 
-    public function show(int $id) {
-        return $this->model->find($id);
+    public function show(int $id, array $with = []) {
+        return $this->model->with($with)->find($id);
     }
 
     public function update(int $id, array $data) {
