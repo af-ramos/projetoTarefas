@@ -23,8 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'register.log' => LogMiddleware::class,
-            'send.notification' => NotificationMiddleware::class
+            'register.log' => LogMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
