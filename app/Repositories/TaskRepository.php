@@ -13,7 +13,8 @@ class TaskRepository extends BaseRepository
         $this->model = new Task();
     }
 
-    public function list(int $projectId) {
-        return $this->model->with(['user:id,name', 'status:id,description'])->get();
+
+    public function listInProject(int $projectId) {
+        return $this->model->with(['user:id,name', 'status:id,description'])->where('project_id', $projectId)->get();
     }
 }

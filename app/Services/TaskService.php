@@ -22,7 +22,7 @@ class TaskService
     }
 
     public function listTasks(int $projectId) {
-        return $this->taskRepository->list($projectId);
+        return $this->taskRepository->listInProject($projectId);
     }
 
     public function showTask(int $taskId) {
