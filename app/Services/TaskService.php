@@ -22,11 +22,11 @@ class TaskService
     }
 
     public function listTasks(int $projectId) {
-        return $this->taskRepository->listInProject($projectId);
+        return $this->taskRepository->listInProject($projectId, ['owner:id,name', 'status:id,description', 'assigned:id,name']);
     }
 
     public function showTask(int $taskId) {
-        return $this->taskRepository->show($taskId);
+        return $this->taskRepository->show($taskId, ['project:id,title,owner_id', 'owner:id,name', 'status:id,description', 'assigned:id,name']);
     }
 
     public function updateTask(int $taskId, array $data) {

@@ -18,14 +18,14 @@ class Project extends Model
     ];
 
     public function tasks() {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class, 'project_id');
     }
 
     public function status() {
-        return $this->belongsTo(ProjectStatus::class);
+        return $this->belongsTo(ProjectStatus::class, 'status_id');
     }
 
     public function owner() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

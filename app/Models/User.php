@@ -23,12 +23,4 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
         return [];
     }
-
-    public function projects() {
-        return $this->hasMany(Project::class);
-    }
-
-    public function tasks() {
-        return $this->hasMany(Task::class);
-    }
 }

@@ -15,29 +15,30 @@ class TaskController extends Controller
 {
     use ApiResponderTrait;
 
-    protected $authService;
     protected $taskService;
     protected $projectService;
-    protected $userService;
+    protected $authService;
 
-    public function __construct(AuthService $authService, ProjectService $projectService, TaskService $taskService, UserService $userService) {
-        $this->authService = $authService;
+    public function __construct(ProjectService $projectService, TaskService $taskService, AuthService $authService) {
         $this->projectService = $projectService;
-        $this->userService = $userService;
         $this->taskService = $taskService;
+        $this->authService = $authService;
     }
 
     public function create(CreateTaskRequest $request, int $projectId) {
         $task = $request->validated();
+
         $project = $this->projectService->showProject($projectId);
+        $user = $this->authService->getId();
 
         if (!$project) {
             return $this->error([], 'Project not found', 404);
         }
         
         $task['project_id'] = $project->id;
+        $task['owner_id'] = $user;
+
         $task = $this->taskService->createTask($task);
-        
         return $this->success(['task' => $task], 'Task created successfully', 201);
     }
 
