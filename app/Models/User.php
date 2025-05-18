@@ -19,6 +19,10 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password'
     ];
+
+    public function notifications() {
+        return $this->belongsToMany(Notification::class, 'notification_user', 'user_id', 'notification_id');
+    }
     
     public function getJWTIdentifier() {
         return $this->getKey();    
