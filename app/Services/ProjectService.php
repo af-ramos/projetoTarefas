@@ -25,7 +25,13 @@ class ProjectService
     }
 
     public function showProject(int $id) {
-        return $this->projectRepository->show($id, ['tasks:id,project_id,name', 'owner:id,name', 'status:id,description']);
+        return $this->projectRepository->show($id, [
+            'tasks:id,project_id,name,assigned_id,status_id', 
+            'tasks.assigned:id,name', 
+            'tasks.status:id,description',
+            'owner:id,name', 
+            'status:id,description'
+        ]);
     }
 
     public function updateProject(int $id, array $data) {

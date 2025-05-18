@@ -26,7 +26,7 @@ class TaskService
     }
 
     public function showTask(int $taskId) {
-        return $this->taskRepository->show($taskId, ['project:id,title,owner_id', 'owner:id,name', 'status:id,description', 'assigned:id,name']);
+        return $this->taskRepository->show($taskId, ['project:id,title,owner_id,description', 'owner:id,name', 'status:id,description', 'assigned:id,name']);
     }
 
     public function updateTask(int $taskId, array $data) {

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\CreateProjectRequest;
 use App\Http\Requests\Project\EditProjectRequest;
+use App\Http\Resources\Project\ProjectResource;
+use App\Http\Resources\Project\ProjectSummaryResource;
 use App\Services\AuthService;
 use App\Services\ProjectService;
 use App\Traits\ApiResponderTrait;
@@ -26,12 +28,12 @@ class ProjectController extends Controller
         $project['owner_id'] = $this->authService->getId();
 
         $project = $this->projectService->createProject($project);
-        return $this->success(['project' => $project], 'Project created successfully', 201);
+        return $this->success(['project' => new ProjectSummaryResource($project)], 'Project created successfully', 201);
     }
 
     public function list() {
         $projects = $this->projectService->listProjects();
-        return $this->success(['projects' => $projects], 'Projects listed successfully', 200);
+        return $this->success(['projects' => ProjectSummaryResource::collection($projects)], 'Projects listed successfully', 200);
     }
 
     public function show($id) {
@@ -41,7 +43,7 @@ class ProjectController extends Controller
             return $this->error([], 'Project not found', 404);
         }
 
-        return $this->success(['project' => $project], 'Project listed successfully', 200);
+        return $this->success(['project' => new ProjectResource($project)], 'Project listed successfully', 200);
     }
 
     public function update(EditProjectRequest $request, int $id) {
@@ -54,7 +56,7 @@ class ProjectController extends Controller
         $this->authorize('update', $project);
 
         $updatedProject = $this->projectService->updateProject($id, $request->validated());
-        return $this->success(['project' => $updatedProject], 'Project updated successfully', 200);
+        return $this->success(['project' => new ProjectSummaryResource($updatedProject)], 'Project updated successfully', 200);
     }
 
     public function delete(int $id) {

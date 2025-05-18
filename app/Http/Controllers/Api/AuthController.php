@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\User\UserResource;
 use App\Services\AuthService;
 use App\Services\UserService;
 use App\Traits\ApiResponderTrait;
@@ -48,7 +49,7 @@ class AuthController extends Controller
         $user = $this->authService->getUser();
         $user = $this->userService->showUser($user->id);
         
-        return $this->success(['user' => $user], 'User details', 200);
+        return $this->success(['user' => new UserResource($user)], 'User details', 200);
     }
 
     public function logout() {
