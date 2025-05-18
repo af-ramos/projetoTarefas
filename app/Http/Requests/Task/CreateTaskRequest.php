@@ -16,7 +16,10 @@ class CreateTaskRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(array_map(fn($value) => mb_strtoupper($value), $this->all()));
+        $filtered = array_filter($this->all(), fn($value) => !is_null($value) && trim($value) !== '');
+        $normalized = array_map(fn($value) => mb_strtoupper($value), $filtered);
+
+        $this->merge($normalized);
     }
 
     /**
@@ -28,15 +31,14 @@ class CreateTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Name is mandatory',
-            'description.required' => 'Description is mandatory'
+            'name.required' => 'Name is mandatory'
         ];
     }
 }
