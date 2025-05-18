@@ -20,7 +20,7 @@ class TaskSummaryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'status' => new StatusResource($this->status),
+            'status' => $this->when($this->status, new StatusResource($this->status)),
             'assigned' => $this->when($this->assigned, new UserSummaryResource($this->assigned))
         ];
     }
