@@ -42,34 +42,34 @@ Recomenda-se também o uso do Docker Engine, ao invés do convencional Docker De
 
 ## ESTRUTURA DE PROJETOS
 
-O projeto segue o padrão **MCV** para **APIs RESTful**, incluindo também os padrões **Service Layer** (camada responsável por conter as regras de negócio/serviço da aplicação) e a **Repository Layer** (responsável por gerenciar e manipular os dados das bases de dados, servindo como intermediário entre o serviço e o modelo).
+O projeto segue o padrão MCV para APIs RESTful, incluindo também os padrões Service Layer (camada responsável por conter as regras de negócio/serviço da aplicação) e a Repository Layer (responsável por gerenciar e manipular os dados das bases de dados, servindo como intermediário entre o serviço e o modelo).
 
 A estrutura de diretório segue descrita abaixo:
 
 #### **database:**
-- migrations: responsável pela inicialização da base de dados.
-- seeders: responsável pela criação de dados padrão e geralmente imutáveis (statuses e notifications).
+- **migrations:** responsável pela inicialização da base de dados.
+- **seeders:** responsável pela criação de dados padrão e geralmente imutáveis (statuses e notifications).
 
 #### **app:**
-- Http:
-    - Controllers: controladores responsáveis pelas requisições HTTP.
-    - Middleware: camadas intermediárias para autenticação, CORS, etc.
-    - Requests: validações personalizadas para entrada de dados.
-- Interfaces: contratos para implementação de repositórios e serviços.
-- Jobs: tarefas assíncronas para processamento em background.
-- Models: representações das entidades do sistema.
-- Policies: regras de autorização para acesso a recursos.
-- Repositories: camada de acesso a dados com separação da lógica de persistência.
-- Services: camada de regras de negócio e orquestração.
-- Traits: blocos reutilizáveis de código para múltiplas classes.
+- **Http:**
+    - **Controllers:** controladores responsáveis pelas requisições HTTP.
+    - **Middleware:** camadas intermediárias para autenticação, CORS, etc.
+    - **Requests:** validações personalizadas para entrada de dados.
+- **Interfaces:** contratos para implementação de repositórios e serviços.
+- **Jobs:** tarefas assíncronas para processamento em background.
+- **Models:** representações das entidades do sistema.
+- **Policies:** regras de autorização para acesso a recursos.
+- **Repositories:** camada de acesso a dados com separação da lógica de persistência.
+- **Services:** camada de regras de negócio e orquestração.
+- **Traits:** blocos reutilizáveis de código para múltiplas classes.
 
 #### **config:**
-- auth.php: define as configurações de autenticação.
-- database.php: gerencia as conexões com bancos de dados.
-- horizon.php: configura a ferramenta para monitoramento e controle de filas.
+- **auth.php:** define as configurações de autenticação.
+- **database.php:** gerencia as conexões com bancos de dados.
+- **horizon.php:** configura a ferramenta para monitoramento e controle de filas.
 
 #### **bootstrap:**
-- app.php: responsável por carregar e retornar a instância principal da aplicação, nela foi realizada o registro das middlewares e o tratamento personalizado de exceções.
+- **app.php:** responsável por carregar e retornar a instância principal da aplicação, nela foi realizada o registro das middlewares e o tratamento personalizado de exceções.
 
 ## ESTRUTURA DE DADOS
 
@@ -93,11 +93,11 @@ O banco de dados não relacional consiste em três coleções, descritas abaixo:
 
 Em relação às regras de negócio, foram tomadas algumas decisões de forma a deixar o processo consistente.
 
-- Todo o fluxo deve ter autenticação via **token JWT**, de forma a tornar o processo seguro.
+- Todo o fluxo deve ter autenticação via token JWT, de forma a tornar o processo seguro.
 - Somente o dono de um projeto pode editar/deletar um projeto, porém foi permitido que qualquer usuário possa adicionar tarefas em um determinado projeto, dando autorização para o dono do projeto, de forma semelhante ao dono da tarefa, de atualizar e remover os itens.
 - Somente usuários atribuídos à tarefa podem atualizá-la, nesse ponto foi acrescentado também a possibilidade do criador do projeto e do criador da tarefa ter autorização, incluindo atualização de tarefas, além do próprio usuário responsável.
-- Sempre que ações de login/logout, criação/edição de projetos e criação/edição de tarefas forem realizadas, **será registrado uma log no banco MongoDB** de forma a manter o histórico dessas ações.
-- Sempre que uma nova tarefa for criada ou um usuário for atribuído a uma tarefa, **uma notificação será enviada para o serviço de mensageria (RabbitMQ)** de forma a ser distribuída. Nesse quesito, foram consideradas duas situações, quando uma criação de tarefa for realizada, o criador do projeto será notificado, quando uma tarefa for atualizada, o criador do projeto, o criador da tarefa e o usuário atribuído será notificado. Destaco que o usuário será notificado em todas os tipos de notificações que foram habilitadas no registro.
+- Sempre que ações de login/logout, criação/edição de projetos e criação/edição de tarefas forem realizadas, será registrado uma log no banco MongoDB de forma a manter o histórico dessas ações.
+- Sempre que uma nova tarefa for criada ou um usuário for atribuído a uma tarefa, uma notificação será enviada para o serviço de mensageria (RabbitMQ) de forma a ser distribuída. Nesse quesito, foram consideradas duas situações, quando uma criação de tarefa for realizada, o criador do projeto será notificado, quando uma tarefa for atualizada, o criador do projeto, o criador da tarefa e o usuário atribuído será notificado. Destaco que o usuário será notificado em todas os tipos de notificações que foram habilitadas no registro.
 
 ## TESTES
 
