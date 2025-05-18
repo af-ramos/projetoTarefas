@@ -24,7 +24,7 @@ class ProjectResource extends JsonResource
             'description' => $this->description,
             'owner' => new UserSummaryResource($this->owner),
             'status' => new StatusResource($this->status),
-            'tasks' => TaskSummaryResource::collection($this->tasks)
+            'tasks' => $this->when($this->tasks->isNotEmpty(), TaskSummaryResource::collection($this->tasks))
         ];
     }
 }
