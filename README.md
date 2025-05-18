@@ -86,17 +86,18 @@ O banco de dados relacional é composto por seis tabelas principais, descritas a
 
 O banco de dados não relacional consiste em três coleções, descritas abaixo:
 
-
+- **errors:** responsável por armazenar exceções em sistema, como erros de autenticação, banco de dados, entre outros, de forma a facilitar o rastreamento e monitoria de erros.
+- **logs:** responsável por armazenar execuções de ações específicas no usuário, como login/logout, criação/edição de projetos, entre outras tarefas, de forma a facilitar a monitoria das ações de usuários.
 
 ## REGRAS DE NEGÓCIO
 
 Em relação às regras de negócio, foram tomadas algumas decisões de forma a deixar o processo consistente.
 
 - Todo o fluxo deve ter autenticação via **token JWT**, de forma a tornar o processo seguro.
-- Somente o dono de um projeto pode editar/deletar um projeto, nesse ponto foi considerada a criação/remoção de uma tarefa como parte da edição de um projeto, logo apenas o criador do projeto pode também realizar a criação/remoção de tarefas.
-- Somente usuários atribuídos à tarefa podem atualizá-la, nesse ponto foi acrescentado também a possibilidade do criador do projeto ter autorização para realizar qualquer ação no projeto, incluindo atualização de tarefas, além do próprio usuário responsável.
+- Somente o dono de um projeto pode editar/deletar um projeto, porém foi permitido que qualquer usuário possa adicionar tarefas em um determinado projeto, dando autorização para o dono do projeto, de forma semelhante ao dono da tarefa, de atualizar e remover os itens.
+- Somente usuários atribuídos à tarefa podem atualizá-la, nesse ponto foi acrescentado também a possibilidade do criador do projeto e do criador da tarefa ter autorização, incluindo atualização de tarefas, além do próprio usuário responsável.
 - Sempre que ações de login/logout, criação/edição de projetos e criação/edição de tarefas forem realizadas, **será registrado uma log no banco MongoDB** de forma a manter o histórico dessas ações.
-- Sempre que uma nova tarefa for criada ou um usuário for atribuído a uma tarefa, **uma notificação será enviada para o serviço de mensageria (RabbitMQ)** de forma a ser distribuída. Nesse quesito, foram consideradas duas situações, quando uma criação de tarefa for realizada, o criador do projeto será notificado, quando uma tarefa for atualizada, o criador do projeto e o usuário atribuído será notificado. Destaco que o usuário será notificado em todas os tipos de notificações que foram habilitadas no registro.
+- Sempre que uma nova tarefa for criada ou um usuário for atribuído a uma tarefa, **uma notificação será enviada para o serviço de mensageria (RabbitMQ)** de forma a ser distribuída. Nesse quesito, foram consideradas duas situações, quando uma criação de tarefa for realizada, o criador do projeto será notificado, quando uma tarefa for atualizada, o criador do projeto, o criador da tarefa e o usuário atribuído será notificado. Destaco que o usuário será notificado em todas os tipos de notificações que foram habilitadas no registro.
 
 ## TESTES
 
