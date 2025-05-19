@@ -14,7 +14,6 @@ class NotificationJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected array $data;
-    protected int $targetId;
 
     public function __construct(array $data) {
         $this->onQueue('notifications');
