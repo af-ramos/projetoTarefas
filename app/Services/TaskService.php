@@ -48,7 +48,7 @@ class TaskService
         return $this->taskRepository->delete($taskId);
     }
 
-    public function getNotificationUsers(int $taskId) {
+    public function getProjectOwner(int $taskId) {
         return $this->taskRepository->show($taskId, ['project:id,owner_id']);
     }
 }
