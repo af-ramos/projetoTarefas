@@ -22,11 +22,22 @@ class TaskService
     }
 
     public function listTasks(int $projectId) {
-        return $this->taskRepository->listInProject($projectId, ['owner:id,name', 'status:id,description', 'assigned:id,name']);
+        return $this->taskRepository->listInProject($projectId, [
+            'owner:id,name', 
+            'status:id,description', 
+            'assigned:id,name'
+        ]);
     }
 
     public function showTask(int $taskId) {
-        return $this->taskRepository->show($taskId, ['project:id,title,owner_id,description', 'owner:id,name', 'status:id,description', 'assigned:id,name']);
+        return $this->taskRepository->show($taskId, [
+            'project:id,title,description,owner_id,status_id', 
+            'project.owner:id,name',
+            'project.status:id,description',
+            'owner:id,name', 
+            'status:id,description', 
+            'assigned:id,name'
+        ]);
     }
 
     public function updateTask(int $taskId, array $data) {
@@ -35,5 +46,9 @@ class TaskService
 
     public function deleteTask(int $taskId) {
         return $this->taskRepository->delete($taskId);
+    }
+
+    public function getNotificationUsers(int $taskId) {
+        return $this->taskRepository->show($taskId, ['project:id,owner_id']);
     }
 }
