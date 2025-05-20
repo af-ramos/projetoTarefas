@@ -16,6 +16,13 @@ abstract class NotificationService
     public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
+    
+    public function init(array $data) {
+        $this->setUserNotifications($data['target']);
+        $this->setContent($data);
+
+        $this->sendMessage();
+    }
 
     public function setUserNotifications(int $user) {
         $this->userNotifications = $this->userService->getUserNotifications($user);
@@ -23,13 +30,6 @@ abstract class NotificationService
 
     public function setContent(array $data) {
         $this->content = $data;
-    }
-
-    public function init(array $data) {
-        $this->setUserNotifications($data['target']);
-        $this->setContent($data);
-
-        $this->sendMessage();
     }
 
     public function sendMessage() {
