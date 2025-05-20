@@ -8,6 +8,8 @@ abstract class NotificationService
 {
     protected UserService $userService;
 
+    public abstract function getSendMethod(string $type);
+
     public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
@@ -23,7 +25,7 @@ abstract class NotificationService
 
     public function sendMessage(mixed $userNotifications, array $data) {
         foreach ($userNotifications as $notificationType) {
-            $sendMethod = 'send' . ucfirst(strtolower($notificationType->description));
+            $sendMethod = 'send' . $this->getSendMethod($data['type']) . ucfirst(strtolower($notificationType->description));
 
             if (method_exists($this, $sendMethod)) {
                 $this->$sendMethod($data);
