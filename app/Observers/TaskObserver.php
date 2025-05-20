@@ -18,7 +18,7 @@ class TaskObserver
     }
 
     public function created(Task $task): void {
-        $this->queueService->sendNotification(TaskNotificationService::class, [
+        $this->queueService->dispatchNotification(TaskNotificationService::class, [
             'target' => $task->project->owner_id,
             'type' => 'task_created',
             'task' => $task
@@ -35,7 +35,7 @@ class TaskObserver
         ));
 
         foreach ($notifyUsers as $target) {
-            $this->queueService->sendNotification(TaskNotificationService::class, [
+            $this->queueService->dispatchNotification(TaskNotificationService::class, [
                 'target' => $target,
                 'type' => 'task_assigned',
                 'task' => $task
