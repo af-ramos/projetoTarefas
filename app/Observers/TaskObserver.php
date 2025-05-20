@@ -30,7 +30,7 @@ class TaskObserver
             return;
         }
 
-        $notifyUsers = [$task->project->owner_id, $task->owner_id, $task->assigned_id];
+        $notifyUsers = array_unique([$task->project->owner_id, $task->owner_id, $task->assigned_id]);
 
         foreach ($notifyUsers as $target) {
             $this->queueService->sendNotification(app(TaskNotificationService::class), [
