@@ -26,4 +26,8 @@ class UserService
     public function showUser(int $userId) {
         return $this->userRepository->show($userId, ['notifications:id,description']);
     }
+
+    public function getUserNotifications(int $userId) {
+        return $this->userRepository->show($userId, ['notifications:id,description']);
+    }
 }

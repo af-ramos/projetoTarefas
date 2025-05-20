@@ -21,7 +21,7 @@ class TaskObserver
         $this->queueService->sendNotification(app(TaskNotificationService::class), [
             'target' => $task->project->owner_id,
             'type' => 'task_created',
-            'data' => []
+            'task' => $task
         ]);
     }
 
@@ -30,13 +30,15 @@ class TaskObserver
             return;
         }
 
-        $notifyUsers = array_unique([$task->project->owner_id, $task->owner_id, $task->assigned_id]);
+        $notifyUsers = array_filter(array_unique(
+            [$task->project->owner_id, $task->owner_id, $task->assigned_id]
+        ));
 
         foreach ($notifyUsers as $target) {
             $this->queueService->sendNotification(app(TaskNotificationService::class), [
                 'target' => $target,
                 'type' => 'task_assigned',
-                'data' => []
+                'task' => $task
             ]);
         }
     }

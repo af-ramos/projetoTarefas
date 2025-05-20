@@ -15,5 +15,7 @@ class Notification extends Model
         'description'
     ];
 
-    
+    protected $hidden = [
+        'pivot'
+    ];
 }

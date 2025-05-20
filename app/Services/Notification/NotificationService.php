@@ -2,19 +2,41 @@
 
 namespace App\Services\Notification;
 
-use Illuminate\Support\Facades\Log;
+use App\Services\UserService;
 
 abstract class NotificationService
 {
-    public function init(array $data) {
-        Log::info($data);
+    protected $userService;
 
-        // $this->getUserNotifications($data['user_id']);
-        // $this->formatMessage($data);
-        // $this->sendMessage($data);
+    protected $userNotifications;
+    protected $content;
+
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
     }
 
-    public function getUserNotifications(int $userId) {
-        //
+    public function setUserNotifications(int $user) {
+        $this->userNotifications = $this->userService->getUserNotifications($user);
+    }
+
+    public function setContent(array $data) {
+        $this->content = $data;
+    }
+
+    public function init(array $data) {
+        $this->setUserNotifications($data['target']);
+        $this->setContent($data);
+
+        $this->sendMessage();
+    }
+
+    public function sendMessage() {
+        foreach ($this->userNotifications->notifications as $notificationType) {
+            $sendMethod = 'send' . ucfirst(strtolower($notificationType->description));
+
+            if (method_exists($this, $sendMethod)) {
+                $this->$sendMethod($this->content);
+            }
+        }
     }
 }
