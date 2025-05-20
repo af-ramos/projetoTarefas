@@ -9,10 +9,7 @@ class LogRepository
 {
     protected $log;
     protected $error;
-
-    /**
-     * Create a new class instance.
-     */
+    
     public function __construct() {
         $this->log = new Log();
         $this->error = new Error();

@@ -9,9 +9,6 @@ class ProjectService
 {
     protected $projectRepository;
     
-    /**
-     * Create a new class instance.
-     */
     public function __construct(ProjectRepository $projectRepository) {
         $this->projectRepository = $projectRepository;
     }

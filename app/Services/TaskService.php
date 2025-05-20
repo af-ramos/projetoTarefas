@@ -9,10 +9,7 @@ use Exception;
 class TaskService
 {
     protected $taskRepository;
-    
-    /**
-     * Create a new class instance.
-     */
+
     public function __construct(TaskRepository $projectRepository) {
         $this->taskRepository = $projectRepository;
     }
