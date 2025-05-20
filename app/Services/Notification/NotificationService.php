@@ -15,12 +15,7 @@ abstract class NotificationService
     }
     
     public function init(array $data) {
-        $userNotifications = $this->setUserNotifications($data['target']);
-        $this->sendMessage($userNotifications, $data);
-    }
-
-    public function setUserNotifications(int $user) {
-        return $this->userService->getUserNotifications($user);
+        $this->sendMessage($this->userService->getUserNotifications($data['target']), $data);
     }
 
     public function sendMessage(mixed $userNotifications, array $data) {
