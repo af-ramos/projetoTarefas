@@ -14,8 +14,8 @@ class AuthController extends Controller
 {
     use ApiResponderTrait;
 
-    protected $userService;
-    protected $authService;
+    protected UserService $userService;
+    protected AuthService $authService;
 
     public function __construct(UserService $userService, AuthService $authService) {
         $this->userService = $userService;

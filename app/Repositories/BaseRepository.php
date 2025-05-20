@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
+
 abstract class BaseRepository
 {
-    protected $model;
+    protected Model $model;
 
     public function create(array $data) {
         return $this->model->create($data);

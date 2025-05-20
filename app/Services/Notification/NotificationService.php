@@ -2,21 +2,22 @@
 
 namespace App\Services\Notification;
 
+use App\Models\Notification;
 use App\Services\UserService;
 
 abstract class NotificationService
 {
-    protected $userService;
+    protected UserService $userService;
 
-    protected $userNotifications;
-    protected $content;
+    protected Notification $userNotifications;
+    protected array $content;
 
     public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
 
     public function setUserNotifications(int $user) {
-        $this->userNotifications = $this->userService->getUserNotifications($user);
+        $this->userNotifications = $this->userService->getUserNotifications($user)->notifications;
     }
 
     public function setContent(array $data) {
@@ -31,7 +32,7 @@ abstract class NotificationService
     }
 
     public function sendMessage() {
-        foreach ($this->userNotifications->notifications as $notificationType) {
+        foreach ($this->userNotifications as $notificationType) {
             $sendMethod = 'send' . ucfirst(strtolower($notificationType->description));
 
             if (method_exists($this, $sendMethod)) {

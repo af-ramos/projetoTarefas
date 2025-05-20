@@ -15,8 +15,8 @@ class ProjectController extends Controller
 {
     use ApiResponderTrait;
 
-    protected $projectService;
-    protected $authService;
+    protected ProjectService $projectService;
+    protected AuthService $authService;
 
     public function __construct(ProjectService $projectService, AuthService $authService) {
         $this->projectService = $projectService;

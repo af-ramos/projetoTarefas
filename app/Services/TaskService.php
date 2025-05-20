@@ -8,7 +8,7 @@ use Exception;
 
 class TaskService
 {
-    protected $taskRepository;
+    protected TaskRepository $taskRepository;
 
     public function __construct(TaskRepository $projectRepository) {
         $this->taskRepository = $projectRepository;

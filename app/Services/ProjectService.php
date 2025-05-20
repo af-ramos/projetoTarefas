@@ -7,7 +7,7 @@ use Exception;
 
 class ProjectService
 {
-    protected $projectRepository;
+    protected ProjectRepository $projectRepository;
     
     public function __construct(ProjectRepository $projectRepository) {
         $this->projectRepository = $projectRepository;

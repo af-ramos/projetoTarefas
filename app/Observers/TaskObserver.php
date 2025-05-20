@@ -9,8 +9,8 @@ use App\Services\TaskService;
 
 class TaskObserver
 {
-    protected $taskService;
-    protected $queueService;
+    protected TaskService $taskService;
+    protected QueueService $queueService;
 
     public function __construct(TaskService $taskService, QueueService $queueService) {
         $this->taskService = $taskService;
@@ -18,7 +18,7 @@ class TaskObserver
     }
 
     public function created(Task $task): void {
-        $this->queueService->sendNotification(app(TaskNotificationService::class), [
+        $this->queueService->sendNotification(TaskNotificationService::class, [
             'target' => $task->project->owner_id,
             'type' => 'task_created',
             'task' => $task
@@ -35,7 +35,7 @@ class TaskObserver
         ));
 
         foreach ($notifyUsers as $target) {
-            $this->queueService->sendNotification(app(TaskNotificationService::class), [
+            $this->queueService->sendNotification(TaskNotificationService::class, [
                 'target' => $target,
                 'type' => 'task_assigned',
                 'task' => $task

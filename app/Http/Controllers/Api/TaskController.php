@@ -16,9 +16,9 @@ class TaskController extends Controller
 {
     use ApiResponderTrait;
 
-    protected $taskService;
-    protected $projectService;
-    protected $authService;
+    protected TaskService $taskService;
+    protected ProjectService $projectService;
+    protected AuthService $authService;
 
     public function __construct(ProjectService $projectService, TaskService $taskService, AuthService $authService) {
         $this->projectService = $projectService;

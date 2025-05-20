@@ -6,7 +6,7 @@ use App\Repositories\LogRepository;
 
 class LogService
 {
-    protected $mongoRepository;
+    protected LogRepository $mongoRepository;
 
     public function __construct(LogRepository $mongoRepository) {
         $this->mongoRepository = $mongoRepository;

@@ -7,7 +7,7 @@ use App\Services\Notification\NotificationService;
 
 class QueueService 
 {
-    public function sendNotification(NotificationService $notificatitionService, array $data) {
-        NotificationJob::dispatch($notificatitionService, $data);
+    public function sendNotification(string $notificationClass, array $data) {
+        NotificationJob::dispatch($notificationClass, $data);
     }
 }

@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LogMiddleware
 {
-    protected $logService;
-    protected $authService;
+    protected LogService $logService;
+    protected AuthService $authService;
 
     public function __construct(LogService $logService, AuthService $authService)
     {

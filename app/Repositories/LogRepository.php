@@ -7,8 +7,8 @@ use App\Models\Logs\Log;
 
 class LogRepository
 {
-    protected $log;
-    protected $error;
+    protected Log $log;
+    protected Error $error;
     
     public function __construct() {
         $this->log = new Log();
