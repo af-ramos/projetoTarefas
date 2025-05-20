@@ -5,8 +5,7 @@ Esse projeto tem como objetivo o desenvolvimento de uma API RESTful visando impl
 - Cadastro, autenticação, visualização, edição e remoção de entidades (usuários, projetos e tarefas).
 - Tratamento de erros completa, abrangendo erros específicos e retornando códigos e mensagens amigáveis ao usuário.
 - Serviço de logs para controle de erros e monitoria de transações realizadas, como autenticações e alterações críticas de elementos.
-- Serviço de mensageria com foco em notificações (email e popup) / simulação do processamento da fila sendo realizada pelo MongoDB.
-- Realização de testes de forma a validar o sistema de forma unitária e completa.
+- Serviço de mensageria com foco em notificações (email e popup) / simulação do processamento da fila via Laravel Logs.
 
 ## CONFIGURAÇÃO
 
@@ -40,37 +39,6 @@ Recomenda-se também o uso do Docker Engine, ao invés do convencional Docker De
 - **Nginx 1**: servidor web utilizado para a aplicação Laravel, garantindo performance, segurança e roteamento adequado das requisições.
 - **Supervisord 4**: gerenciador de processos responsável por manter o PHP-FPM e as filas ativas continuamente.
 
-## ESTRUTURA DE PROJETOS
-
-O projeto segue o padrão MCV para APIs RESTful, incluindo também os padrões Service Layer (camada responsável por conter as regras de negócio/serviço da aplicação) e a Repository Layer (responsável por gerenciar e manipular os dados das bases de dados, servindo como intermediário entre o serviço e o modelo).
-
-A estrutura de diretório segue descrita abaixo:
-
-#### **database:**
-- **migrations:** responsável pela inicialização da base de dados.
-- **seeders:** responsável pela criação de dados padrão e geralmente imutáveis (statuses e notifications).
-
-#### **app:**
-- **Http:**
-    - **Controllers:** controladores responsáveis pelas requisições HTTP.
-    - **Middleware:** camadas intermediárias para autenticação, CORS, etc.
-    - **Requests:** validações personalizadas para entrada de dados.
-- **Interfaces:** contratos para implementação de repositórios e serviços.
-- **Jobs:** tarefas assíncronas para processamento em background.
-- **Models:** representações das entidades do sistema.
-- **Policies:** regras de autorização para acesso a recursos.
-- **Repositories:** camada de acesso a dados com separação da lógica de persistência.
-- **Services:** camada de regras de negócio e orquestração.
-- **Traits:** blocos reutilizáveis de código para múltiplas classes.
-
-#### **config:**
-- **auth.php:** define as configurações de autenticação.
-- **database.php:** gerencia as conexões com bancos de dados.
-- **horizon.php:** configura a ferramenta para monitoramento e controle de filas.
-
-#### **bootstrap:**
-- **app.php:** responsável por carregar e retornar a instância principal da aplicação, nela foi realizada o registro das middlewares e o tratamento personalizado de exceções.
-
 ## ESTRUTURA DE DADOS
 
 O banco de dados relacional é composto por seis tabelas principais, descritas abaixo:
@@ -98,6 +66,3 @@ Em relação às regras de negócio, foram tomadas algumas decisões de forma a 
 - Somente usuários atribuídos à tarefa podem atualizá-la, nesse ponto foi acrescentado também a possibilidade do criador do projeto e do criador da tarefa ter autorização, incluindo atualização de tarefas, além do próprio usuário responsável.
 - Sempre que ações de login/logout, criação/edição de projetos e criação/edição de tarefas forem realizadas, será registrado uma log no banco MongoDB de forma a manter o histórico dessas ações.
 - Sempre que uma nova tarefa for criada ou um usuário for atribuído a uma tarefa, uma notificação será enviada para o serviço de mensageria (RabbitMQ) de forma a ser distribuída. Nesse quesito, foram consideradas duas situações, quando uma criação de tarefa for realizada, o criador do projeto será notificado, quando uma tarefa for atualizada, o criador do projeto, o criador da tarefa e o usuário atribuído será notificado. Destaco que o usuário será notificado em todas os tipos de notificações que foram habilitadas no registro.
-
-## TESTES
-
