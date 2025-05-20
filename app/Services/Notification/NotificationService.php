@@ -4,12 +4,13 @@ namespace App\Services\Notification;
 
 use App\Models\Notification;
 use App\Services\UserService;
+use Illuminate\Database\Eloquent\Collection;
 
 abstract class NotificationService
 {
     protected UserService $userService;
 
-    protected Notification $userNotifications;
+    protected Collection $userNotifications;
     protected array $content;
 
     public function __construct(UserService $userService) {
@@ -17,7 +18,7 @@ abstract class NotificationService
     }
 
     public function setUserNotifications(int $user) {
-        $this->userNotifications = $this->userService->getUserNotifications($user)->notifications;
+        $this->userNotifications = $this->userService->getUserNotifications($user);
     }
 
     public function setContent(array $data) {
