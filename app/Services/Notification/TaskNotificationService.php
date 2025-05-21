@@ -14,7 +14,7 @@ class TaskNotificationService extends NotificationService
         };
     }
 
-    private function sendTaskCreatedEmail(array $data) {
+    public function sendTaskCreatedEmail(array $data) {
         // definir o body do email para task criada
         // realizar envio do email para task criada
 
@@ -22,7 +22,7 @@ class TaskNotificationService extends NotificationService
         Log::info($data);
     }
 
-    private function sendTaskAssignedEmail(array $data) {
+    public function sendTaskAssignedEmail(array $data) {
         // definir o body do email para task atribuida
         // realizar o envio do email para task atribuida
 
