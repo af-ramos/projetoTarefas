@@ -16,7 +16,10 @@ class EditTaskRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $this->merge(array_map(fn($value) => mb_strtoupper($value), $this->all()));
+        $filtered = array_filter($this->all(), fn($value) => !is_null($value) && trim($value) !== '');
+        $normalized = array_map(fn($value) => mb_strtoupper($value), $filtered);
+
+        $this->merge($normalized);
     }
 
     /**
@@ -28,9 +31,9 @@ class EditTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'status_id' => 'required|integer|between:6,8',
-            'user_id' => 'nullable|integer|exists:users,id'
+            'description' => 'nullable|string|max:255',
+            'status_id' => 'required|integer|exists:task_statuses,id',
+            'assigned_id' => 'nullable|integer|exists:users,id'
         ];
     }
 
@@ -38,10 +41,9 @@ class EditTaskRequest extends FormRequest
     {
         return [
             'name.required' => 'Name is mandatory',
-            'description.required' => 'Description is mandatory',
             'status_id.required' => 'Status is mandatory',
-            'status_id.between' => 'Status is unavailable',
-            'user_id.exists' => 'User is unavailable'
+            'status_id.exists' => 'Status is unavailable',
+            'assigned_id.exists' => 'User is unavailable'
         ];
     }
 }

@@ -2,23 +2,17 @@
 
 namespace App\Repositories;
 
-use App\Models\Error;
-use App\Models\Log;
-use App\Models\NotificationLog;
+use App\Models\Logs\Error;
+use App\Models\Logs\Log;
 
 class LogRepository
 {
-    protected $log;
-    protected $error;
-    protected $notification;
-
-    /**
-     * Create a new class instance.
-     */
+    protected Log $log;
+    protected Error $error;
+    
     public function __construct() {
         $this->log = new Log();
         $this->error = new Error();
-        $this->notification = new NotificationLog();
     }
 
     public function log(array $data) {
@@ -27,9 +21,5 @@ class LogRepository
 
     public function error(array $data) {
         $this->error->create($data);
-    }
-
-    public function notification(array $data) {
-        $this->notification->create($data);
     }
 }

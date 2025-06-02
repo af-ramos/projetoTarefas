@@ -3,16 +3,12 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
-use Exception;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    protected $userRepository;
+    protected UserRepository $userRepository;
     
-    /**
-     * Create a new class instance.
-     */
     public function __construct(UserRepository $userRepository) {
         $this->userRepository = $userRepository;
     }
@@ -27,6 +23,10 @@ class UserService
     }
 
     public function showUser(int $userId) {
-        return $this->userRepository->show($userId);
+        return $this->userRepository->show($userId, ['notifications:id,description']);
+    }
+
+    public function getUserNotifications(int $userId) {
+        return $this->userRepository->show($userId, ['notifications:id,description'])->notifications;
     }
 }

@@ -191,21 +191,20 @@ return [
             'memory' => 128,
             'tries' => 1,
             'timeout' => 60,
-            'nice' => 0
+            'nice' => 0,
+            'sleep' => 3
         ]
     ],
 
     'environments' => [
         'production' => [
             'supervisor-senior' => [
-                'maxProcesses' => 10,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
+                'maxProcesses' => 10
             ]
         ],
         'local' => [
             'supervisor-senior' => [
-                'maxProcesses' => 3,
+                'maxProcesses' => 3
             ]
         ]
     ]

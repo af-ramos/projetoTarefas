@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Logs;
 
 use MongoDB\Laravel\Eloquent\Model;
 
-class Log extends Model
+class Error extends Model
 {
     protected $connection = 'mongodb';
     public $timestamps = false;
@@ -16,6 +16,7 @@ class Log extends Model
         'route',
         'user',
         'ip',
-        'method'
+        'method',
+        'error'
     ];
 }

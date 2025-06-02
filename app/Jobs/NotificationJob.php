@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Services\Notifications\NotificationService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,18 +13,16 @@ class NotificationJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected array $data;
-    protected int $targetId;
-    protected NotificationService $service;
+    protected string $notificationClass;
 
-    public function __construct(string $serviceClass, array $data, int $targetId) {
+    public function __construct(string $notificationClass, array $data) {
         $this->onQueue('notifications');
 
+        $this->notificationClass = $notificationClass;
         $this->data = $data;
-        $this->targetId = $targetId;
-        $this->service = app($serviceClass);
     }
 
     public function handle() {
-        $this->service->init($this->data, $this->targetId);
+        app($this->notificationClass)->init($this->data);
     }
 }

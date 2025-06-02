@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // USER ROUTES
 
-Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'register'])->middleware(['register.log']);
 Route::post('login', [AuthController::class, 'login'])->middleware(['register.log']);
 
 Route::middleware('auth:api')->group(function () {
@@ -31,7 +31,7 @@ Route::middleware('auth:api')->group(function () {
 // TASKS ROUTES
 
 Route::middleware('auth:api')->group(function () {
-    Route::middleware(['register.log', 'send.notification'])->group(function () {
+    Route::middleware(['register.log'])->group(function () {
         Route::post('projects/{id}/tasks', [TaskController::class, 'create']);
         Route::put('tasks/{id}', [TaskController::class, 'update']);
     });

@@ -7,11 +7,8 @@ use Exception;
 
 class ProjectService
 {
-    protected $projectRepository;
+    protected ProjectRepository $projectRepository;
     
-    /**
-     * Create a new class instance.
-     */
     public function __construct(ProjectRepository $projectRepository) {
         $this->projectRepository = $projectRepository;
     }
@@ -21,11 +18,17 @@ class ProjectService
     }
 
     public function listProjects() {
-        return $this->projectRepository->list();
+        return $this->projectRepository->list(['owner:id,name', 'status:id,description']);
     }
 
     public function showProject(int $id) {
-        return $this->projectRepository->show($id);
+        return $this->projectRepository->show($id, [
+            'tasks:id,project_id,name,assigned_id,status_id', 
+            'tasks.assigned:id,name', 
+            'tasks.status:id,description',
+            'owner:id,name', 
+            'status:id,description'
+        ]);
     }
 
     public function updateProject(int $id, array $data) {
